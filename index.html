@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>नोटांची मोजणी</title>
+  <style>
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+       input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f6f3;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #000901;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #c8e6c9;
+    }
+
+    th {
+      background-color:#ff7ca1;
+      color: #000a01;
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 5px;
+      text-align: right;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-green {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-red {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .result {
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #1b5e20;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      th {
+        text-align: left;
+        background-color: transparent;
+        color: #021203;
+      }
+
+      td {
+        margin-bottom: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: inline-block;
+        width: 120px;
+      }
+
+      input[type="number"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>नोटांची मोजणी</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>नोट किंमत (₹)</th>
+          <th>संख्या</th>
+          <th>रक्कम (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>₹10</td>
+          <td><input type="number" id="note10" value="" min="0"></td>
+          <td id="amt10">₹0</td>
+        </tr>
+        <tr>
+          <td>₹20</td>
+          <td><input type="number" id="note20" value="" min="0"></td>
+          <td id="amt20">₹0</td>
+        </tr>
+        <tr>
+          <td>₹50</td>
+          <td><input type="number" id="note50" value="" min="0"></td>
+          <td id="amt50">₹0</td>
+        </tr>
+        <tr>
+          <td>₹100</td>
+          <td><input type="number" id="note100" value="" min="0"></td>
+          <td id="amt100">₹0</td>
+        </tr>
+        <tr>
+          <td>₹200</td>
+          <td><input type="number" id="note200" value="" min="0"></td>
+          <td id="amt200">₹0</td>
+        </tr>
+        <tr>
+          <td>₹500</td>
+          <td><input type="number" id="note500" value="" min="0"></td>
+          <td id="amt500">₹0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="buttons">
+      <button class="btn-green" onclick="calculate()">मोजा</button>
+      <button class="btn-red" onclick="clearFields()">क्लिअर</button>
+    </div>
+
+    <div class="result" id="totalResult">एकूण रक्कम: ₹0</div>
+  </div>
+
+  <script>
+    function calculate() {
+      const getValue = id => parseInt(document.getElementById(id).value) || 0;
+
+      const notes = {
+        10: getValue("note10"),
+        20: getValue("note20"),
+        50: getValue("note50"),
+        100: getValue("note100"),
+        200: getValue("note200"),
+        500: getValue("note500")
+      };
+
+      let total = 0;
+
+      for (let [denom, count] of Object.entries(notes)) {
+        let amt = denom * count;
+        total += amt;
+        document.getElementById("amt" + denom).innerText = `₹${amt}`;
+      }
+
+      document.getElementById("totalResult").innerText = `एकूण रक्कम: ₹${total}`;
+    }
+
+    function clearFields() {
+      const values = [10, 20, 50, 100, 200, 500];
+      values.forEach(val => {
+        document.getElementById("note" + val).value = 0;
+        document.getElementById("amt" + val).innerText = "₹0";
+      });
+      document.getElementById("totalResult").innerText = "एकूण रक्कम: ₹0";
+    }
+  </script>
+</body>
+</html>
